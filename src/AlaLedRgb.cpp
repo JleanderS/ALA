@@ -279,6 +279,9 @@ void AlaLedRgb::setAnimationFunc(int animation)
         case ALA_FIRE:                  animFunc = &AlaLedRgb::fire;                  break;
         case ALA_BOUNCINGBALLS:         animFunc = &AlaLedRgb::bouncingBalls;         break;
         case ALA_BUBBLES:               animFunc = &AlaLedRgb::bubbles;               break;
+		
+		case ALA_MUSIC:                 animFunc = &AlaLedRgb::music;                 break;
+		case ALA_DISCO:                 animFunc = &AlaLedRgb::disco;                 break;
 
         default:                        animFunc = &AlaLedRgb::off;
     }
@@ -791,3 +794,124 @@ void AlaLedRgb::bubbles()
 
 }
 
+void readMSGEQ7()
+{
+  //reset the data
+  digitalWrite(PIN_RESET, HIGH);
+  digitalWrite(PIN_RESET, LOW);
+  
+  //loop thru all 7 bands
+  for(int band=0; band < 7; band++) {
+    digitalWrite(PIN_STROBE,LOW); // go to the next band 
+    delayMicroseconds(40); //gather some data
+    left[band] = analogRead(PIN_LEFT); // store left band reading
+    right[band] = analogRead(PIN_RIGHT); // store right band reading
+    digitalWrite(PIN_STROBE,HIGH); // reset the strobe pin
+  }
+}
+
+void printColor(Color c) 
+{
+  Serial.print("( ");
+  Serial.print(c.r);
+  Serial.print(", ");
+  Serial.print(c.g);
+  Serial.print(", ");
+  Serial.print(c.b);
+  Serial.println(" )");
+}
+
+void setColor(Color *c, int r, int g, int b) 
+{
+  c->r = r;
+  c->g = g;
+  c->b = b;
+}
+
+Color pitchConv(int p, int b) 
+{
+  Color c;
+  double bright = convBrightness(b);
+
+  if(p < 322) 
+  {
+    setColor(&c, 255, 0, 0);
+  }
+  else if(p >= 322 && p <= 377) 
+  {
+    int b = (p - 322) * (255/37.0000);
+    setColor(&c, 255, 0, b);
+  }
+  else if(p > 377 && p <= 435) 
+  {
+    int r = 255 - ((p - 407) * 2);
+    setColor(&c, r, 0, 255);
+  }
+  else if(p >= 436 && p <= 518) 
+  {
+    int g = (p - 436) * (255/32.0000);
+    setColor(&c, 0, g, 255);
+  }
+  else if(p <= 519 && p <= 550) 
+  {
+    int r = (p - 509) * (255/11.0000);
+    setColor(&c, r, 255, 255);
+  }
+  else if(p >= 551 && p <= 670) 
+  {
+    setColor(&c, 255, 255, 255);
+  }
+  else if(p >= 671 && p <= 898) 
+  {
+    int rb = 255-((p-671)*2);
+    setColor(&c, rb, 255, rb);
+  }
+  else if(p >= 899 && p <= 1023) 
+  {
+    setColor(&c, 0, 255-(p-698), (p-698));
+  }
+  else 
+  {
+    setColor(&c, 255, 0, 0);
+  }
+  setColor(&c, c.r * bright, c.g * bright, c.b * bright);
+  return c;
+}
+
+double convBrightness(int b) 
+{
+  double c = b / 623.0000;
+  if( c < 0.2 ) {
+    c = 0;
+  }
+  else if(c > 1) {
+    c = 0.60;
+  }
+  return c;
+}
+
+
+void AlaLed::music()
+{
+  readMSGEQ7();
+
+
+  // Shift all LEDs to the right by updateLEDS number each time
+  for(int i = numLEDS - 1; i >= updateLEDS; i--) {
+    leds[i] = leds[i - updateLEDS];
+  }
+
+  // Get the pitch and brightness to compute the new color
+  int newPitch = (left[band]/2);
+  Color nc = pitchConv(newPitch, right[band] / 2);
+
+  // Set the left most updateLEDs with the new color
+  for(int i = 0; i < updateLEDS; i++) {
+    leds[i] = CRGB(nc.r, nc.g, nc.b);
+   } 
+}
+
+void AlaLed::disco()
+{
+//soon
+}	

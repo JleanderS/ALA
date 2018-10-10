@@ -74,6 +74,9 @@ along with The Arduino ALA library.  If not, see
 #define ALA_BOUNCINGBALLS 502
 #define ALA_BUBBLES 503
 
+#define ALA_MUSIC 601
+#define ALA_DISCO 602
+
 #define ALA_ENDSEQ 0
 #define ALA_STOPSEQ 1
 

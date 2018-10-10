@@ -49,8 +49,27 @@ public:
 
     bool runAnimation();
 
-
-
+	int left;
+	int right;
+	int band;
+	
+	struct color
+	{
+	   int r;
+	   int g;
+	   int b;
+	};
+	typedef struct color Color;
+	
+	// Define MSGEQ7 PINS
+	int PIN_STROBE; 
+	int PIN_RESET; 
+	int PIN_LEFT; //analog
+	int PIN_RIGHT;  //analog
+	
+	int updateLEDS;
+	
+	
 private:
 
     void setAnimationFunc(int animation);
@@ -89,6 +108,9 @@ private:
     void fire();
     void bouncingBalls();
     void bubbles();
+	
+	void music();
+	void disco();
 
 
     byte driver;    // type of led driver: ALA_PWM, ALA_TLC5940
