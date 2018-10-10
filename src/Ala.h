@@ -86,14 +86,6 @@ along with The Arduino ALA library.  If not, see
 #define ALA_STROBODC 10
 
 
-// Music Ani settings
-#define updateLeds 8
-
-
-#define PIN_STROBE 4
-#define PIN_RESET 5
-#define PIN_LEFT 0 //analog
-#define PIN_RIGHT 1 //analog
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -159,6 +151,14 @@ struct AlaColor
         int b0 = min(b*k, 255);
         return AlaColor(r0, g0, b0);
     }
+	
+	AlaColor CRGB(int cr, int cg, int cb)
+	{
+	    int r0 = cr;
+        int g0 = cg;
+        int b0 = cb;
+        return AlaColor(r0, g0, b0);
+	}
 
 
     typedef enum {
