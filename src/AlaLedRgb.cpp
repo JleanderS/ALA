@@ -917,7 +917,7 @@ void AlaLedRgb::music()
 
   // Set the left most updateLEDs with the new color
   for(int i = 0; i < updateLeds; i++) {
-    leds[i] = AlaColor(nc.r, nc.g, nc.b);
+    leds[i] = palette.colors(nc.r, nc.g, nc.b);
    } 
 }
 
