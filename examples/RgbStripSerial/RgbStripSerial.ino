@@ -16,6 +16,7 @@
 #define NUM_PIXELS 10   // number of leds in the LED strip
 #define CMDBUFSIZE 16   // buffer size for receiving serial commands
 
+
 AlaLedRgb rgbStrip;
 char cmdBuffer[CMDBUFSIZE];
 
@@ -34,6 +35,12 @@ void setup()
   rgbStrip.initWS2812(NUM_PIXELS, WS2811_PIN);
   rgbStrip.setBrightness(color.scale(brightness));
   rgbStrip.setAnimation(animation, duration, color);
+  
+  //initialize eq
+  pinMode(5, OUTPUT); // reset
+  pinMode(4, OUTPUT); // strobe
+  digitalWrite(5,LOW); // reset low
+  digitalWrite(4,HIGH); //pin 5 is RESET on the shield
   
   Serial.begin(9600);
 
