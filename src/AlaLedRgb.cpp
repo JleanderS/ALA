@@ -7,6 +7,15 @@
 	int left[7];
 	int right[7];
 	int band;
+	
+// Music Ani settings
+#define updateLeds 8
+
+
+#define PIN_STROBE 4
+#define PIN_RESET 5
+#define PIN_LEFT 0 //analog
+#define PIN_RIGHT 1 //analog
 
 AlaLedRgb::AlaLedRgb()
 {
