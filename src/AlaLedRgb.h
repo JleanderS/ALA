@@ -49,25 +49,7 @@ public:
 
     bool runAnimation();
 
-	int left;
-	int right;
-	int band;
 	
-	struct color
-	{
-	   int r;
-	   int g;
-	   int b;
-	};
-	typedef struct color Color;
-	
-	// Define MSGEQ7 PINS
-	int PIN_STROBE; 
-	int PIN_RESET; 
-	int PIN_LEFT; //analog
-	int PIN_RIGHT;  //analog
-	
-	int updateLEDS;
 	
 	
 private:
@@ -117,6 +99,7 @@ private:
     byte *pins;     // pins where the leds are attached to
     AlaColor *leds; // array to store leds brightness values
     int numLeds;    // number of leds
+
 
     int animation;
     long speed;

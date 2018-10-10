@@ -4,8 +4,9 @@
 #include "ExtNeoPixel.h"
 #include "ExtTlc5940.h"
 
-
-
+	int left[7];
+	int right[7];
+	int band;
 
 AlaLedRgb::AlaLedRgb()
 {
@@ -18,6 +19,8 @@ AlaLedRgb::AlaLedRgb()
     refreshMillis = 1000/50;
     pxPos = NULL;
     pxSpeed = NULL;
+	
+
 }
 
 
@@ -80,6 +83,7 @@ void AlaLedRgb::initWS2812(int numLeds, byte pin, byte type)
 
     neopixels->begin();
 }
+
 
 
 
@@ -793,6 +797,11 @@ void AlaLedRgb::bubbles()
     }
 
 }
+/*******************************************************************************
+* Music
+* Music Sync Animation based on Sparkfun Spectrum Shield 
+* With MSGEQ7 Chip
+*******************************************************************************/
 
 void readMSGEQ7()
 {
@@ -810,22 +819,24 @@ void readMSGEQ7()
   }
 }
 
-void printColor(Color c) 
-{
-  Serial.print("( ");
-  Serial.print(c.r);
-  Serial.print(", ");
-  Serial.print(c.g);
-  Serial.print(", ");
-  Serial.print(c.b);
-  Serial.println(" )");
-}
 
 void setColor(Color *c, int r, int g, int b) 
 {
   c->r = r;
   c->g = g;
   c->b = b;
+}
+
+double convBrightness(int b) 
+{
+  double c = b / 623.0000;
+  if( c < 0.2 ) {
+    c = 0;
+  }
+  else if(c > 1) {
+    c = 0.60;
+  }
+  return c;
 }
 
 Color pitchConv(int p, int b) 
@@ -878,27 +889,17 @@ Color pitchConv(int p, int b)
   return c;
 }
 
-double convBrightness(int b) 
-{
-  double c = b / 623.0000;
-  if( c < 0.2 ) {
-    c = 0;
-  }
-  else if(c > 1) {
-    c = 0.60;
-  }
-  return c;
-}
 
 
-void AlaLed::music()
+
+void AlaLedRgb::music()
 {
   readMSGEQ7();
 
 
   // Shift all LEDs to the right by updateLEDS number each time
-  for(int i = numLEDS - 1; i >= updateLEDS; i--) {
-    leds[i] = leds[i - updateLEDS];
+  for(int i = numLeds - 1; i >= updateLeds; i--) {
+    leds[i] = leds[i - updateLeds];
   }
 
   // Get the pitch and brightness to compute the new color
@@ -906,12 +907,12 @@ void AlaLed::music()
   Color nc = pitchConv(newPitch, right[band] / 2);
 
   // Set the left most updateLEDs with the new color
-  for(int i = 0; i < updateLEDS; i++) {
-    leds[i] = CRGB(nc.r, nc.g, nc.b);
+  for(int i = 0; i < updateLeds; i++) {
+    leds[i] = AlaColor(nc.r, nc.g, nc.b);
    } 
 }
 
-void AlaLed::disco()
+void AlaLedRgb::disco()
 {
 //soon
 }	

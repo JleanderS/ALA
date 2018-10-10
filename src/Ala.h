@@ -86,6 +86,15 @@ along with The Arduino ALA library.  If not, see
 #define ALA_STROBODC 10
 
 
+// Music Ani settings
+#define updateLeds 8
+
+
+#define PIN_STROBE 4
+#define PIN_RESET 5
+#define PIN_LEFT 0 //analog
+#define PIN_RIGHT 1 //analog
+
 ////////////////////////////////////////////////////////////////////////////////
 
 struct AlaColor
@@ -222,6 +231,15 @@ struct AlaSeq
     long duration;
     AlaPalette palette;
 };
+
+// Define color structure for rgb
+struct color {
+  int r;
+  int g;
+  int b;
+
+};
+typedef struct color Color;
 
 
 ////////////////////////////////////////////////////////////////////////////////
