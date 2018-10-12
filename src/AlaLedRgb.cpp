@@ -932,13 +932,12 @@ void AlaLedRgb::disco()
 	int newPitch = (left[band]/2);
 	Color nc = pitchConv(newPitch, right[band] / 2);
 	
-	
-	int p = speed/100;
-	int numLeds = numLeds+2
-        for(int x=0; x<numLeds; x++)
+    int t = getStep(animStartTime, speed, 2);
+    int k = (t+1)%2;
+    for(int x=0; x<numLeds; x++)
     {
 		AlaColor c;
-        leds[x] = c.CRGB(nc.r, nc.g, nc.b);
+        leds[x] = c.CRGB(nc.r, nc.g, nc.b).scale(k);
     }
 	
 }	
