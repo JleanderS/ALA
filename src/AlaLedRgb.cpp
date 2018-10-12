@@ -907,7 +907,8 @@ void AlaLedRgb::music()
 
 
   // Shift all LEDs to the right by updateLEDS number each time
-  for(int i = numLeds - 1; i >= updateLeds; i--) {
+  for(int i = numLeds - 1; i >= updateLeds; i--) 
+  {
     leds[i] = leds[i - updateLeds];
   }
 
@@ -916,7 +917,8 @@ void AlaLedRgb::music()
   Color nc = pitchConv(newPitch, right[band] / 2);
 
   // Set the left most updateLEDs with the new color
-  for(int i = 0; i < updateLeds; i++) {
+  for(int i = 0; i < updateLeds; i++) 
+  {
 	  AlaColor c;
     leds[i] = c.CRGB(nc.r, nc.g, nc.b);
    } 
@@ -924,5 +926,24 @@ void AlaLedRgb::music()
 
 void AlaLedRgb::disco()
 {
-//soon
+	readMSGEQ7();
+	
+	// Get the pitch and brightness to compute the new color
+	int newPitch = (left[band]/2);
+	Color nc = pitchConv(newPitch, right[band] / 2);
+	
+
+	// Shift all LEDs to the right by updateLEDS number each time
+	for(int i = numLeds - 1; i >= updateLeds-5; i--) 
+	{
+    leds[i] = leds[i - updateLeds];
+	}
+	
+	int p = speed/100;
+    for(int i=0; i<updateLeds-5; i++)
+    {
+		AlaColor c;
+        leds[i] = c.CRGB(nc.r, nc.g, nc.b);
+    }
+	
 }	
