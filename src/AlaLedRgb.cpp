@@ -934,10 +934,11 @@ void AlaLedRgb::disco()
 	
 	
 	int p = speed/100;
-    for(int i=0; i<updateLeds-5; i++)
+	int numLeds = numLeds+2
+        for(int x=0; x<numLeds; x++)
     {
 		AlaColor c;
-        leds[i] = c.CRGB(nc.r, nc.g, nc.b);
+        leds[x] = c.CRGB(nc.r, nc.g, nc.b);
     }
 	
 }	
