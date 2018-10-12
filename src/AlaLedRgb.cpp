@@ -932,7 +932,7 @@ void AlaLedRgb::disco()
 	int newPitch = (left[band]/2);
 	Color nc = pitchConv(newPitch, right[band] / 2);
 	
-    int t = getStep(animStartTime, speed, 2);
+    int t = getStep(0, 0, 2);
     int k = (t+1)%2;
     for(int x=0; x<numLeds; x++)
     {
