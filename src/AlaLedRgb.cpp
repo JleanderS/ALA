@@ -932,12 +932,6 @@ void AlaLedRgb::disco()
 	int newPitch = (left[band]/2);
 	Color nc = pitchConv(newPitch, right[band] / 2);
 	
-
-	// Shift all LEDs to the right by updateLEDS number each time
-	for(int i = numLeds - 1; i >= updateLeds-5; i--) 
-	{
-    leds[i] = leds[i - updateLeds];
-	}
 	
 	int p = speed/100;
     for(int i=0; i<updateLeds-5; i++)
